@@ -1,0 +1,111 @@
+﻿@model VodusSearchInfo
+@{
+    ViewData["Title"] = "Load Json File";
+    int counter = 1;
+}
+
+@if (TempData["SuccessMsg"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMsg"]
+    </div>
+}
+@if (TempData["ErrorMsg"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMsg"]
+    </div>
+}
+
+<div class="shadow p-5">
+    <div class="row pb-2">
+        <h2>Task B</h2>
+    </div>
+
+    <form method="post">
+        <div asp-validation-summary="All"></div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="startDate">To</label>
+                <input type="date" class="form-control mb-3" asp-for="startDate" placeholder="Enter start Date (format : YYYY-MM-DD)">
+                <span asp-validation-for="startDate" class=" alert-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="endDate">From</label>
+                <input type="date" class="form-control mb-3" asp-for="endDate" placeholder="Enter start Date (format : YYYY-MM-DD)">
+                <span asp-validation-for="endDate" class=" alert-danger"></span>
+            </div>
+        </div>
+        <a asp-controller="Home" asp-action="LoadJsonFile" class="btn btn-lg btn-warning p-2">Reload</a>
+        <button type="submit" class="btn btn-lg btn-primary p-2"><i class="bi bi-file-plus-fill"></i>Search</button>
+    </form>
+
+    <div class="form-row pt-2">
+        <div class="form-group col-md-6">
+            <table class="table table-bordered table-hover" style="font-size: small;">
+                <thead>
+                    <tr>
+                        <th scope="col">SNo#</th>
+                        <th scope="col">Page</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">T&C</th>
+                        <th scope="col">startDate</th>
+                        <th scope="col">endDate</th>
+                        <th scope="col">Url</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.ExcelData != null)
+                    {
+                        @foreach (var item in ViewBag.ExcelData)
+                        {
+                            <tr>
+                                <td>
+                                    @counter
+                                </td>
+                                <td>
+                                    @item.page
+                                </td>
+                                <td>
+                                    @item.promoTitle
+                                </td>
+                                <td>
+                                    @item.promoDescription
+                                </td>
+                                <td>
+                                    @item.TandC
+                                </td>
+                                <td>
+                                    @item.startDate
+                                </td>
+                                <td>
+                                    @item.endDate
+                                </td>
+                                <td>
+                                    @item.imageUrl
+                                </td>
+                            </tr>
+                            counter++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center font-weight-bold">No Record(s) Found.</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+
+    }
+}

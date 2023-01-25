@@ -1,0 +1,47 @@
+﻿@model VodusFileInfo
+@{
+    ViewData["Title"] = "Generate Json File";
+}
+
+@if (TempData["SuccessMsg"] != null)
+{
+<div class="alert alert-success" role="alert">
+    @TempData["SuccessMsg"]
+</div>
+}
+@if (TempData["ErrorMsg"] != null)
+{
+<div class="alert alert-danger" role="alert">
+    @TempData["ErrorMsg"]
+</div>
+}
+
+<div class="shadow p-5">
+    <div class="row pb-2">
+        <h2>Task A</h2>
+    </div>
+
+    <form method="post">
+        <div asp-validation-summary="All"></div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="fileUrl">Excel File Url</label>
+                <input type="text" class="form-control mb-3" asp-for="fileUrl" placeholder="Enter File Url">
+                <span asp-validation-for="fileUrl" class=" alert-danger"></span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-lg btn-primary p-2"><i class="bi bi-file-plus-fill"></i>Generate Json File</button>
+        @if (TempData["JsonFilePath"] != null)
+        {
+            <a asp-controller="Home" asp-action="DownloadFile" class="btn btn-lg btn-warning p-2">Download</a>
+        }
+    </form>
+</div>
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+
+    }
+}
